@@ -9,7 +9,7 @@ TEST_DIR = test
 UNITY_DIR = $(TEST_DIR)/unity
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.c) $(UNITY_DIR)/unity.c
 
 OBJS = $(SRCS:.c=.o)
 TEST_OBJS = $(filter-out $(SRC_DIR)/qmk_textflow.o, $(OBJS)) $(TEST_SRCS:.c=.o)

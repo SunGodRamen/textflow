@@ -1,4 +1,5 @@
 // qmk_textflow.c
+#include "../rsrc/mock_qmk.h"
 #include "qmk_textflow.h"
 
 static bool textflow_active = false;
