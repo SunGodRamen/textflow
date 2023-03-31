@@ -1,28 +1,43 @@
 // test_qmk_textflow.c
-#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#ifdef USE_MOCK_QMK
+#include "../rsrc/mock_qmk.h"
+#else
+#include "../src/qmk_textflow.h"
+#endif
+
 #include "unity.h"
-#include "qmk_textflow.h"
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    static bool textflow_active = false;
+void setUp(void) {
+    // Empty implementation, since we don't need any setup for our tests.
+}
 
-    if (keycode == KC_COMPOSE && record->event.pressed) {
-        textflow_active = !textflow_active;
-    }
-    
-    return textflow_active;
+void tearDown(void) {
+    // Empty implementation, since we don't need any teardown for our tests.
 }
 
 // Test function to check the Compose key activation and deactivation
 void test_compose_key_activation_deactivation(void) {
-    // Test Compose key activation
-    process_record_user(KC_COMPOSE, &(keyrecord_t){.event.pressed = true});
+    keyrecord_t test_record;
+
+    // Press the Compose key
+    test_record.keycode = KC_COMPOSE;
+    test_record.event.pressed = true;
+    process_record_user(KC_COMPOSE, &test_record);
     TEST_ASSERT_TRUE(is_textflow_active());
-    
-    // Test Compose key deactivation
-    process_record_user(KC_COMPOSE, &(keyrecord_t){.event.pressed = false});
+
+    // Release the Compose key
+    test_record.event.pressed = false;
+    process_record_user(KC_COMPOSE, &test_record);
+
+    // Press the Compose key again
+    test_record.event.pressed = true;
+    process_record_user(KC_COMPOSE, &test_record);
     TEST_ASSERT_FALSE(is_textflow_active());
 }
+
 
 // Main function for running test cases
 int main(void) {

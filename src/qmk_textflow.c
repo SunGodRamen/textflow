@@ -4,6 +4,10 @@
 
 static bool textflow_active = false;
 
+void toggle_textflow_active(void) {
+    textflow_active = !textflow_active;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_COMPOSE) {
         if (record->event.pressed) {
